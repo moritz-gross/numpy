@@ -386,20 +386,21 @@ merge_at_(type *arr, const run *stack, const npy_intp at, buffer_<Tag> *buffer)
 
 /* See https://github.com/python/cpython/blob/ea23c897cd25702e72a04e06664f6864f07a7c5d/Objects/listsort.txt
 *  for a detailed explanation.
+* In CPython, *num* is called *n*, but we changed it for consistency with the NumPy implementation.
 */
 static int
-powerloop(npy_intp s1, npy_intp n1, npy_intp n2, npy_intp n)
+powerloop(npy_intp s1, npy_intp n1, npy_intp n2, npy_intp num)
 {
     int result = 0;
     npy_intp a = 2 * s1 + n1;  /* 2*a */
     npy_intp b = a + n1 + n2;  /* 2*b */
     for (;;) {
         ++result;
-        if (a >= n) {  /* both quotient bits are 1 */
-            a -= n;
-            b -= n;
+        if (a >= num) {  /* both quotient bits are 1 */
+            a -= num;
+            b -= num;
         }
-        else if (b >= n) {  /* a/n bit is 0, b/n bit is 1 */
+        else if (b >= num) {  /* a/num bit is 0, b/num bit is 1 */
             break;
         }
         a <<= 1;

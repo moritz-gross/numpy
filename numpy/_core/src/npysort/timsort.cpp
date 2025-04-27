@@ -39,8 +39,8 @@
 #include <cstdlib>
 #include <utility>
 
-/* enough for 32 * 1.618 ** 128 elements */
-#define TIMSORT_STACK_SIZE 128
+/* enough for 32 * 2 ** 90 elements */
+#define TIMSORT_STACK_SIZE 90
 
 static npy_intp
 compute_min_run(npy_intp num)

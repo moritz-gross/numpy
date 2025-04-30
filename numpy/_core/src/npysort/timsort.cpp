@@ -413,13 +413,13 @@ powerloop(npy_intp s1, npy_intp n1, npy_intp n2, npy_intp num)
 template <typename Tag, typename type>
 static int
 found_new_run_(type *arr, run *stack, npy_intp *stack_ptr, npy_intp n2,
-               npy_intp n, buffer_<Tag> *buffer)
+               npy_intp num, buffer_<Tag> *buffer)
 {
     int ret;
     if (*stack_ptr > 0) {
         npy_intp s1 = stack[*stack_ptr - 1].s;
         npy_intp n1 = stack[*stack_ptr - 1].l;
-        int power = powerloop(s1, n1, n2, n);
+        int power = powerloop(s1, n1, n2, num);
         while (*stack_ptr > 1 && stack[*stack_ptr - 2].power > power) {
             ret = merge_at_<Tag>(arr, stack, *stack_ptr - 2, buffer);
             if (NPY_UNLIKELY(ret < 0)) {

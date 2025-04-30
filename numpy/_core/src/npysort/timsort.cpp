@@ -39,8 +39,9 @@
 #include <cstdlib>
 #include <utility>
 
-/* enough for 32 * 2 ** 90 elements */
-#define TIMSORT_STACK_SIZE 90
+/* enough for 32 * 1.618 ** 128 elements.
+   If powersort was used in all cases, 90 would suffice, as  32 * 2 ** 90  >=  32 * 1.618 ** 128  */
+#define RUN_STACK_SIZE 128
 
 static npy_intp
 compute_min_run(npy_intp num)
@@ -483,7 +484,7 @@ timsort_(void *start, npy_intp num)
     int ret;
     npy_intp l, n, stack_ptr, minrun;
     buffer_<Tag> buffer;
-    run stack[TIMSORT_STACK_SIZE];
+    run stack[RUN_STACK_SIZE];
     buffer.pw = NULL;
     buffer.size = 0;
     stack_ptr = 0;
@@ -888,7 +889,7 @@ atimsort_(void *v, npy_intp *tosort, npy_intp num)
     int ret;
     npy_intp l, n, stack_ptr, minrun;
     buffer_intp buffer;
-    run stack[TIMSORT_STACK_SIZE];
+    run stack[RUN_STACK_SIZE];
     buffer.pw = NULL;
     buffer.size = 0;
     stack_ptr = 0;
@@ -1362,7 +1363,7 @@ string_timsort_(void *start, npy_intp num, void *varr)
     size_t len = elsize / sizeof(type);
     int ret;
     npy_intp l, n, stack_ptr, minrun;
-    run stack[TIMSORT_STACK_SIZE];
+    run stack[RUN_STACK_SIZE];
     string_buffer_<Tag> buffer;
 
     /* Items that have zero size don't make sense to sort */
@@ -1791,7 +1792,7 @@ string_atimsort_(void *start, npy_intp *tosort, npy_intp num, void *varr)
     size_t len = elsize / sizeof(type);
     int ret;
     npy_intp l, n, stack_ptr, minrun;
-    run stack[TIMSORT_STACK_SIZE];
+    run stack[RUN_STACK_SIZE];
     buffer_intp buffer;
 
     /* Items that have zero size don't make sense to sort */
@@ -2244,7 +2245,7 @@ npy_timsort(void *start, npy_intp num, void *varr)
     PyArray_CompareFunc *cmp = PyDataType_GetArrFuncs(PyArray_DESCR(arr))->compare;
     int ret;
     npy_intp l, n, stack_ptr, minrun;
-    run stack[TIMSORT_STACK_SIZE];
+    run stack[RUN_STACK_SIZE];
     buffer_char buffer;
 
     /* Items that have zero size don't make sense to sort */
@@ -2680,7 +2681,7 @@ npy_atimsort(void *start, npy_intp *tosort, npy_intp num, void *varr)
     PyArray_CompareFunc *cmp = PyDataType_GetArrFuncs(PyArray_DESCR(arr))->compare;
     int ret;
     npy_intp l, n, stack_ptr, minrun;
-    run stack[TIMSORT_STACK_SIZE];
+    run stack[RUN_STACK_SIZE];
     buffer_intp buffer;
 
     /* Items that have zero size don't make sense to sort */
